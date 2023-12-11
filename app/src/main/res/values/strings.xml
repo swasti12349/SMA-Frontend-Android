@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">SchoolManagementApp</string>
+    <string name="teacher_dashboard">Teacher Dashboard</string>
+    <string name="student_dashboard">Dashboard</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="navigation_drawer_open">ndopen</string>
+    <string name="navigation_drawer_close">navidationclose</string>
+</resources>
