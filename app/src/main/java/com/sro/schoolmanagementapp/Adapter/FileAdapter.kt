@@ -1,16 +1,20 @@
 package com.sro.schoolmanagementapp.Adapter
 
+import android.content.ActivityNotFoundException
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
 import android.os.Environment
+import android.os.StrictMode
+import android.os.StrictMode.VmPolicy
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.content.FileProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.sro.schoolmanagementapp.Model.FileObj
 import com.sro.schoolmanagementapp.Network.RetrofitClass
@@ -31,7 +35,7 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Date
 import java.util.Locale
-import kotlin.math.log
+
 
 class FileAdapter(
     private val context: Context,
@@ -96,7 +100,7 @@ class FileAdapter(
                             if (responseBody != null) {
 
                                 CoroutineScope(Dispatchers.IO).launch {
-                                    saveFileToDownload(responseBody, fileName)
+                                    saveFileToDownloadandOpeninPDFViewer(responseBody, fileName)
                                 }
                             } else {
                                 Log.d("rsgtrg", "download is null")
@@ -117,54 +121,85 @@ class FileAdapter(
 
     }
 
-    private fun saveFileToDownload(responseBody: ResponseBody, fileName: String) {
+    private fun saveFileToDownloadandOpeninPDFViewer(
+        responseBody: ResponseBody,
+        fileName: String
+    ) {
         try {
+            // Ensure the file name ends with ".pdf"
             var fileName = fileName
             fileName = "$fileName.pdf"
-            val currentDateTime = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                LocalDateTime.now()
-            } else {
-                TODO("VERSION.SDK_INT < O")
-            }
 
-            val formatter = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
-            } else {
-                TODO("VERSION.SDK_INT < O")
-            }
+            // Define the directory for downloads
             val downloadsFolder =
                 Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS)
+
+            // Create a File object for the PDF
             val file = File(downloadsFolder, fileName)
 
+            // Create an intent to view the PDF file
+            val pdfViewIntent = Intent(Intent.ACTION_VIEW)
+
+            // Get a content URI for the file using FileProvider
+            val fileUri = FileProvider.getUriForFile(
+                context,
+                "${context.applicationContext.packageName}.provider",
+                file
+            )
+
+            // Set the data type and content URI for the intent
+            pdfViewIntent.setDataAndType(fileUri, "application/pdf")
+
+            // Add necessary flags to the intent
+            pdfViewIntent.addFlags(
+                Intent.FLAG_GRANT_READ_URI_PERMISSION
+                        or Intent.FLAG_ACTIVITY_NO_HISTORY
+                        or Intent.FLAG_ACTIVITY_CLEAR_TOP
+            )
+
+            // Read the PDF content from the response body and write it to the file
             val inputString = responseBody.byteStream()
             val outputStream = FileOutputStream(file)
             val buffer = ByteArray(4096)
             var bytesRead: Int
 
-
             while (inputString.read(buffer).also { bytesRead = it } != -1) {
                 outputStream.write(buffer, 0, bytesRead)
-
             }
+
+            // Close the streams
             outputStream.close()
             inputString.close()
 
+            // Create an intent to trigger media scanning for the newly saved file
             val mediaScanIntent = Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE)
-            mediaScanIntent.data = Uri.fromFile(file)
+            mediaScanIntent.data = fileUri
+
+            // Broadcast the media scan intent to update the MediaStore
             context.sendBroadcast(mediaScanIntent)
 
+            // Launch the PDF viewer intent
             CoroutineScope(Dispatchers.Main).launch {
+                // Show a toast indicating that the file has been saved
                 Toast.makeText(
                     context.applicationContext,
                     "Saved to download",
                     Toast.LENGTH_SHORT
                 ).show()
+
+                // Create a chooser for the PDF viewer intent and start the activity
+                val intent = Intent.createChooser(pdfViewIntent, "Open File")
+                try {
+                    context.startActivity(intent)
+                } catch (e: ActivityNotFoundException) {
+                     Log.d("dsfsdfs", e.localizedMessage)
+                }
             }
 
         } catch (e: IOException) {
-            e.printStackTrace()
+             e.printStackTrace()
             Log.d("rsgtrg", e.localizedMessage)
         }
-
     }
+
 }

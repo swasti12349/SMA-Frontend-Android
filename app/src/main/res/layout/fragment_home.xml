@@ -159,6 +159,7 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/timetablel"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#C51162">
@@ -194,9 +195,9 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/homeworkl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-
                 android:background="#C51162">
 
                 <TextView
@@ -219,8 +220,10 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/classworkl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+
                 android:background="#C51162">
 
                 <TextView
@@ -244,7 +247,9 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/noticel"
                 android:layout_width="match_parent"
+
                 android:layout_height="match_parent"
                 android:background="#C51162">
 
@@ -277,6 +282,7 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/resultl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#C51162">
@@ -301,6 +307,7 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/feedbackl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#C51162">
@@ -326,6 +333,7 @@
             app:layout_constraintTop_toBottomOf="@+id/relativeLayout2">
 
             <RelativeLayout
+                android:id="@+id/examsl"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="#C51162">
