@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import com.sro.schoolmanagementapp.Activity.Student.AttendanceActivity
 import com.sro.schoolmanagementapp.Activity.Teacher.Syllabus
+import com.sro.schoolmanagementapp.Activity.Teacher.TimeTable
 import com.sro.schoolmanagementapp.Activity.Teacher.TodaysAttendance
 import com.sro.schoolmanagementapp.Model.Student
 import com.sro.schoolmanagementapp.Model.Teacher
@@ -123,7 +124,18 @@ class home : Fragment() {
                 activity?.supportFragmentManager?.beginTransaction()?.replace(
                     R.id.fragmentContainer,
                     secondFragment  // Use the instance with arguments here
-                )?.commit()
+                )?.addToBackStack(null)?.commit()
+            }
+
+            binding.timetablel.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("filetype", "timetable")
+
+                val secondFragment = Syllabus()
+                secondFragment.arguments = bundle
+                activity?.supportFragmentManager?.beginTransaction()?.replace(
+                    R.id.fragmentContainer, secondFragment
+                )?.addToBackStack(null)?.commit()
             }
 
 
