@@ -26,7 +26,9 @@
             android:layout_height="wrap_content"
             android:hint="School Code"
             android:inputType="text"
-            android:text="19KDYCBR" />
+
+            android:text="19KDYCBR"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -45,7 +47,8 @@
             android:layout_height="wrap_content"
             android:hint="Name"
             android:inputType="text"
-            android:text="Swasti" />
+            android:text="Swasti"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -63,7 +66,8 @@
             android:layout_height="wrap_content"
             android:hint="Class"
             android:inputType="number"
-            android:text="8" />
+            android:text="8"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -81,7 +85,8 @@
             android:layout_height="wrap_content"
             android:hint="Roll"
             android:inputType="number"
-            android:text="8" />
+            android:text="8"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -100,7 +105,8 @@
             android:layout_height="wrap_content"
             android:hint="Section"
             android:inputType="text"
-            android:text="C" />
+            android:text="C"
+            android:textColor="@color/black" />
 
 
     </com.google.android.material.textfield.TextInputLayout>
@@ -131,8 +137,8 @@
         android:layout_below="@+id/tilmobilw"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_marginTop="@dimen/_10sdp"
-        android:visibility="invisible"
-        android:layout_marginEnd="@dimen/_10sdp">
+        android:layout_marginEnd="@dimen/_10sdp"
+        android:visibility="invisible">
 
         <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/editTextOTP"
@@ -140,6 +146,7 @@
             android:layout_height="wrap_content"
             android:hint="OTP"
             android:inputType="number"
+            android:textColor="@color/black"
             android:visibility="invisible" />
 
     </com.google.android.material.textfield.TextInputLayout>

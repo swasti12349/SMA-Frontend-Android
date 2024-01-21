@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:hint="School Code"
             android:inputType="text"
-            android:text="19KDYCBR" />
+            android:text="19KDYCBR"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -42,7 +43,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Name"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +61,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Gender"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/black" />
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
@@ -76,10 +79,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Subject"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -96,7 +99,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Class"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -114,11 +118,11 @@
             android:id="@+id/editTextMobile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/black"
             android:hint="Mobile Number"
             android:inputType="number" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
 
 
     <com.google.android.material.textfield.TextInputLayout
@@ -135,7 +139,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Section"
-            android:inputType="text" />
+            android:inputType="text"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
@@ -154,7 +159,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="OTP"
-            android:inputType="number" />
+            android:inputType="number"
+            android:textColor="@color/black" />
 
     </com.google.android.material.textfield.TextInputLayout>
 

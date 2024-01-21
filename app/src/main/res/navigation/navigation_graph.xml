@@ -7,13 +7,13 @@
 
     <fragment
         android:id="@+id/attendanceLeadboardFragment"
-        android:name="com.sro.schoolmanagementapp.Activity.Student.fragment.AttendanceFragment"
+        android:name="com.sro.schoolmanagementapp.Fragments.AttendanceFragment"
         android:label="Fragment 1"
         tools:layout="@layout/fragment_attendance" />
 
     <fragment
         android:id="@+id/homef"
-        android:name="com.sro.schoolmanagementapp.Activity.Student.fragment.home"
+        android:name="com.sro.schoolmanagementapp.Fragments.home"
         android:label="Fragment 2"
         tools:layout="@layout/fragment_home" />
 

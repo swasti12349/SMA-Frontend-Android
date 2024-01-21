@@ -10,5 +10,9 @@
         android:icon="@drawable/attenleadicon"
         android:title="Attendance Leaderboard" />
 
+    <item
+        android:id="@+id/logout"
+        android:icon="@drawable/logout"
+        android:title="Logout" />
 
 </menu>

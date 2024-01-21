@@ -15,6 +15,7 @@ import retrofit2.http.POST
 import retrofit2.http.Part
 import retrofit2.http.Path
 import retrofit2.http.Query
+import retrofit2.http.QueryMap
 import retrofit2.http.Streaming
 
 interface ApiService {
@@ -64,13 +65,18 @@ interface ApiService {
         @Part file: MultipartBody.Part
     ): Response<ResponseBody>
 
+//    @POST("/api/files/getAllFiles")
+//    suspend fun getFiles(
+//        @Query("schoolName") schoolName: String,
+//        @Query("className") className: String,
+//        @Query("sectionName") sectionName: String,
+//        @Query("fileType") fileType: String
+//    ): Response<List<FileObj>>
+
+
     @POST("/api/files/getAllFiles")
-    suspend fun getFiles(
-        @Query("schoolName") schoolName: String,
-        @Query("className") className: String,
-        @Query("sectionName") sectionName: String,
-        @Query("fileType") fileType: String
-    ): Response<List<FileObj>>
+    suspend fun getFiles(@QueryMap queryParams: Map<String, String>): Response<List<FileObj>>
+
 
     @Streaming
     @POST("/api/files/getFile")
@@ -81,5 +87,19 @@ interface ApiService {
         @Query("fileName") fileName: String,
         @Query("fileType") fileType: String
     ): Call<ResponseBody>
+
+
+    @Multipart
+    @POST("/api/files/addHomework")
+    suspend fun uploadHomework(
+        @Query("schoolName") schoolName: String,
+        @Query("className") className: String,
+        @Query("sectionName") sectionName: String,
+        @Query("subjectName") subjectName: String,
+        @Query("type") fileType: String,
+        @Query("fileName") fileName: String,
+        @Part file: MultipartBody.Part
+    ): Response<ResponseBody>
+
 
 }

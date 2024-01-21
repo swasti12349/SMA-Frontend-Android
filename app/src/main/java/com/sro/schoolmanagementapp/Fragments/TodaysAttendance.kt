@@ -1,13 +1,15 @@
-package com.sro.schoolmanagementapp.Activity.Teacher
+package com.sro.schoolmanagementapp.Fragments
 
 import android.content.Context
+import android.opengl.Visibility
 import android.os.Bundle
+import android.os.Handler
 import android.util.Log
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.DividerItemDecoration
@@ -20,10 +22,8 @@ import com.sro.schoolmanagementapp.Model.Attendance
 import com.sro.schoolmanagementapp.Network.RetrofitClass
 import com.sro.schoolmanagementapp.databinding.FragmentTeacherAttendanceBinding
 import java.util.Collections
-
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
-
 class TodaysAttendance : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
@@ -58,7 +58,6 @@ class TodaysAttendance : Fragment() {
         mainViewModel.classAttendanceList.observe(viewLifecycleOwner, Observer { attendanceList ->
             Log.d("gdfh", attendanceList.toString())
 
-            // Use the context from the binding.root
             val layoutManager = LinearLayoutManager(binding.root.context)
             binding.teacherattendancerv.layoutManager = layoutManager
 
@@ -79,6 +78,10 @@ class TodaysAttendance : Fragment() {
             binding.teacherattendancerv.adapter = adapter
         })
 
+
+        Handler().postDelayed({
+            binding.svc.visibility = View.GONE
+        }, 3000)
         return binding.root
     }
 

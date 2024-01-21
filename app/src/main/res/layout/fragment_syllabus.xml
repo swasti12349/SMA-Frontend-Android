@@ -5,12 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#FFCEE4"
-    tools:context=".Activity.Teacher.Syllabus">
+    tools:context=".Fragments.Syllabus">
+
+    <TextView
+        android:id="@+id/teacherattendancetxt"
+        android:layout_width="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:textStyle="italic"
+        android:layout_height="wrap_content"
+        android:text="Click plus icon to add syllabus" />
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/shimmer_view_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:duration="1000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -22,19 +32,19 @@
             android:layout_margin="@dimen/_10sdp"
             android:orientation="vertical">
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
 
-            <include layout="@layout/list_item_shrimmer" />
+            <include layout="@layout/list_item_shimmer" />
         </LinearLayout>
     </com.facebook.shimmer.ShimmerFrameLayout>
 

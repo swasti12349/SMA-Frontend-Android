@@ -1,17 +1,14 @@
-package com.sro.schoolmanagementapp.Activity.Student.fragment
+package com.sro.schoolmanagementapp.Fragments
 
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
+import androidx.fragment.app.Fragment
 import com.sro.schoolmanagementapp.Activity.Student.AttendanceActivity
-import com.sro.schoolmanagementapp.Activity.Teacher.Syllabus
-import com.sro.schoolmanagementapp.Activity.Teacher.TimeTable
-import com.sro.schoolmanagementapp.Activity.Teacher.TodaysAttendance
 import com.sro.schoolmanagementapp.Model.Student
 import com.sro.schoolmanagementapp.Model.Teacher
 import com.sro.schoolmanagementapp.R
@@ -20,12 +17,7 @@ import com.sro.schoolmanagementapp.databinding.FragmentHomeBinding
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [home.newInstance] factory method to
- * create an instance of this fragment.
- */
-class home : Fragment() {
+class Home : Fragment() {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -62,11 +54,13 @@ class home : Fragment() {
 
             if (student != null) {
                 binding.nameTxt.text = "Name: " + student.name
-                binding.classSectionTxt.text = "Class: " + student.classs
+                binding.classSectionTxt.text = "Class: " + student.classs + student.section
                 binding.schoolNameTxt.text = "School ID: " + student.schoolID
                 binding.studentmobiletxt.text = "Mobile: " + student.mobile
 
             }
+
+
 
             binding.attendance.setOnClickListener {
                 if (activity?.getSharedPreferences("accfile", Context.MODE_PRIVATE)
@@ -100,7 +94,7 @@ class home : Fragment() {
 
             if (teacher != null) {
                 binding.nameTxt.text = "Name: " + teacher.name
-                binding.classSectionTxt.text = "Class: " + teacher.classs
+                binding.classSectionTxt.text = "Class Teacher: " + teacher.classs + teacher.section
                 binding.schoolNameTxt.text = "School ID: " + teacher.schoolCode
                 binding.studentmobiletxt.text = "Mobile: " + teacher.mobile
 
@@ -137,8 +131,94 @@ class home : Fragment() {
                     R.id.fragmentContainer, secondFragment
                 )?.addToBackStack(null)?.commit()
             }
+        }
 
+        binding.homeworkl.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "homework")
 
+            val secondFragment = Homework()
+            secondFragment.arguments = bundle
+
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer,
+                secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+
+        binding.classworkl.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "classwork")
+
+            val secondFragment = Classwork()
+            secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+
+        binding.noticel.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "notice")
+//
+            val secondFragment = Notice()
+            secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+
+        binding.resultl.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "result")
+//
+            val secondFragment = Result()
+            secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+
+        binding.feedbackl.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "feedback")
+//
+            val secondFragment = Feedback()
+            secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+        binding.examsl.setOnClickListener {
+            val bundle = Bundle()
+            bundle.putString("filetype", "exams")
+//
+            val secondFragment = Exams()
+            secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+
+        binding.feedbackl.setOnClickListener {
+            val bundle = Bundle()
+//                bundle.putString("filetype", "timetable")
+//
+            val secondFragment = Feedback()
+//                secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
+        }
+        binding.examsl.setOnClickListener {
+            val bundle = Bundle()
+//                bundle.putString("filetype", "timetable")
+//
+            val secondFragment = Exams()
+//                secondFragment.arguments = bundle
+            activity?.supportFragmentManager?.beginTransaction()?.replace(
+                R.id.fragmentContainer, secondFragment
+            )?.addToBackStack(null)?.commit()
         }
     }
 
@@ -150,38 +230,19 @@ class home : Fragment() {
         section: String,
         roll: String
     ) {
-        val sharedPreferences = activity?.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE)
+        val sharedPreferences = activity?.getSharedPreferences("student", Context.MODE_PRIVATE)
 
         val editor = sharedPreferences?.edit()
 
         editor?.putString("studentName", studentName)
-        editor?.putString("schoolID", schoolID)
-        editor?.putString("classs", classs)
-        editor?.putString("mobile", mobile)
-        editor?.putString("section", section)
-        editor?.putString("roll", roll)
+        editor?.putString("studentschool", schoolID)
+        editor?.putString("studentclass", classs)
+        editor?.putString("studentmobile", mobile)
+        editor?.putString("studentsection", section)
+        editor?.putString("studentroll", roll)
 
         editor?.apply()
 
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment home.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            home().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
-    }
 }

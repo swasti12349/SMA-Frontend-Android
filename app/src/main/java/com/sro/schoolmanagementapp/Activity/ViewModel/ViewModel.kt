@@ -32,27 +32,46 @@ class MainViewModel(private val repository: Repository) : ViewModel() {
         schoolName: String,
         className: String,
         sectionName: String,
-        file: Uri
+        file: Uri,
+        map: Map<String, String>
+
     ) {
         viewModelScope.launch(Dispatchers.IO) {
             repository.uploadFile(fileType, fileName, file, context)
-            getFiles(schoolName, className, sectionName, fileType)
+            repository.getFiles(map)
         }
     }
 
     fun getFiles(
-        schoolName: String,
-        className: String,
-        sectionName: String,
-        fileType: String
+//        schoolName: String,
+//        className: String,
+//        sectionName: String,
+//        fileType: String
+        map: Map<String, String>
     ) {
 
         viewModelScope.launch(Dispatchers.IO) {
-            repository.getFiles(schoolName, className, sectionName, fileType)
+            repository.getFiles(map)
 
 
         }
     }
+
+    fun addHomework(
+        context: Context,
+        schoolName: String,
+        className: String,
+        sectionName: String,
+        subjectName: String,
+        fileType: String,
+        fileName: String,
+        fileUri: Uri
+    ) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addHomework(context, schoolName, className, sectionName, subjectName, fileType, fileName, fileUri)
+        }
+    }
+
 
 
 }

@@ -109,8 +109,9 @@ class Login : AppCompatActivity() {
                             teacher.mobile,
                             teacher.schoolCode,
                             teacher.gender,
-                            teacher.subject,
-                            teacher.section
+                            teacher.section,
+                            teacher.subject
+
                         )
                     }
                     startActivity(intent)

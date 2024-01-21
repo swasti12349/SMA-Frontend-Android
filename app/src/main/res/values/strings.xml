@@ -6,4 +6,7 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="navigation_drawer_open">ndopen</string>
     <string name="navigation_drawer_close">navidationclose</string>
+    <string name="edit">edit</string>
+    <string name="favorite">fav</string>
+    <string name="more">dfgg</string>
 </resources>

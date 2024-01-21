@@ -29,7 +29,7 @@ class Repository(private val service: ApiService) {
 
 
     private val fileList = MutableLiveData<List<FileObj>>()
-    val fileLists:LiveData<List<FileObj>> get() = fileList
+    val fileLists: LiveData<List<FileObj>> get() = fileList
 
 
     suspend fun getClassAttendanceList(
@@ -97,27 +97,127 @@ class Repository(private val service: ApiService) {
     }
 
     suspend fun getFiles(
-        schoolName: String,
-        className: String,
-        sectionName: String,
-        fileType: String
+//        schoolName: String,
+//        className: String,
+//        sectionName: String,
+//        fileType: String
+
+        map: Map<String, String>
     ) {
 
         try {
-            var response = service.getFiles(schoolName, className, sectionName, fileType)
+            var response = service.getFiles(map)
 
             fileList.postValue(response.body())
 
             Log.d(
-                TAG, response.body().toString()
+                "poi", response.toString()
             )
         } catch (e: Exception) {
             Log.d(TAG, e.localizedMessage!!)
 
         }
-
-
     }
 
+//    suspend fun addHomework(
+//        context: Context,
+//        schoolName: String,
+//        className: String,
+//        sectionName: String,
+//        subjectName: String,
+//        fileType: String,
+//        fileName: String,
+//        file: Uri
+//    ) {
+//        val inputStream = context.contentResolver.openInputStream(file)
+//        val byteArray = inputStream?.readBytes()
+//        var requestBody: RequestBody
+//        var filePart: MultipartBody.Part
+//        if (byteArray != null) {
+//            try {
+//                requestBody = RequestBody.create(MediaType.parse("image/jpg"), byteArray)
+//                filePart = MultipartBody.Part.createFormData("file", fileName, requestBody)
+//
+//                val response = service.uploadHomework(
+//                    schoolName,
+//                    className, sectionName, subjectName, fileType, fileName, filePart
+//                )
+//                withContext(Dispatchers.Main) {
+//
+//                    if (response.isSuccessful) {
+//                        Toast.makeText(context, "Homework added", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(context, response.code().toString(), Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//
+//            } catch (e: Exception) {
+//                requestBody = RequestBody.create(MediaType.parse("image/jpeg"), byteArray)
+//                filePart = MultipartBody.Part.createFormData("file", fileName, requestBody)
+//
+//                val response = service.uploadHomework(
+//                    schoolName,
+//                    className, sectionName, subjectName, fileType, fileName, filePart
+//                )
+//
+//                withContext(Dispatchers.Main) {
+//
+//                    if (response.isSuccessful) {
+//                        Toast.makeText(context, "Homework added", Toast.LENGTH_SHORT).show()
+//                    } else {
+//                        Toast.makeText(context, "Failed", Toast.LENGTH_SHORT).show()
+//                    }
+//                }
+//            }
+//        }
+//    }
+
+
+    suspend fun addHomework(
+        context: Context,
+        schoolName: String,
+        className: String,
+        sectionName: String,
+        subjectName: String,
+        fileType: String,
+        fileName: String,
+        file: Uri
+    ) {
+        try {
+            val inputStream = context.contentResolver.openInputStream(file)
+            val byteArray = inputStream?.readBytes()
+            inputStream?.close()
+
+            if (byteArray != null) {
+                val requestBody = RequestBody.create(MediaType.parse("image/jpeg"), byteArray)
+                val filePart = MultipartBody.Part.createFormData("file", fileName, requestBody)
+
+                withContext(Dispatchers.Main) {
+                    val response = service.uploadHomework(
+                        schoolName,
+                        className,
+                        sectionName,
+                        subjectName,
+                        fileType,
+                        fileName,
+                        filePart
+                    )
+
+                    if (response.isSuccessful) {
+                        Toast.makeText(context, "Homework added", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(context, "Failed: ${response.code()}", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                }
+            } else {
+                Toast.makeText(context, "Failed to read file", Toast.LENGTH_SHORT).show()
+            }
+        } catch (e: Exception) {
+            withContext(Dispatchers.Main) {
+                Toast.makeText(context, "Exception: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
 
 }

@@ -10,7 +10,7 @@ class RetrofitClass {
     fun getInstance(): ApiService {
         if (retrofit == null) {
             retrofit = Retrofit.Builder()
-                .baseUrl("http://192.168.139.50:9091")
+                .baseUrl("http://192.168.230.50:9091")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

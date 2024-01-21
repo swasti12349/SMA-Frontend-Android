@@ -66,8 +66,6 @@ class AttendanceActivity : AppCompatActivity() {
             )
         }
 
-        getData()
-
         if (getAttendance() != null) {
             if (getAttendance() == getToday()) {
                 binding.marktxt.text = "Marked"
@@ -99,7 +97,6 @@ class AttendanceActivity : AppCompatActivity() {
             }
 
         }
-
 
         binding.downloadattendance.setOnClickListener {
             GlobalScope.launch(Dispatchers.IO) {
@@ -137,6 +134,10 @@ class AttendanceActivity : AppCompatActivity() {
         return currentDate.toString()
     }
 
+    override fun onResume() {
+        super.onResume()
+        getData()
+    }
     override fun onRequestPermissionsResult(
         requestCode: Int,
         permissions: Array<out String>,

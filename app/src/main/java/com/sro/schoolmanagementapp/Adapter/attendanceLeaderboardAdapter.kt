@@ -44,7 +44,7 @@ class attendanceLeaderboardAdapter(
         }
     }
 
-    class alviewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    class alviewHolder(itemView: View) : ViewHolder(itemView) {
 
         var studentName = itemView.findViewById<TextView>(R.id.studentName)
         var noofdays = itemView.findViewById<TextView>(R.id.noofdays)

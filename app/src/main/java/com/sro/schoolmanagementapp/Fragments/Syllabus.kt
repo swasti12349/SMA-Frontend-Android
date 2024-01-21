@@ -1,4 +1,4 @@
-package com.sro.schoolmanagementapp.Activity.Teacher
+package com.sro.schoolmanagementapp.Fragments
 
 import android.app.Activity
 import android.app.Dialog
@@ -6,39 +6,28 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
-import android.text.Layout
+import android.os.Handler
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
-import android.view.View.GONE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView.LayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.sro.schoolmanagementapp.Activity.Repository.Repository
 import com.sro.schoolmanagementapp.Activity.ViewModel.MainViewModel
 import com.sro.schoolmanagementapp.Activity.ViewModel.MainViewModelFactory
 import com.sro.schoolmanagementapp.Adapter.FileAdapter
-import com.sro.schoolmanagementapp.Adapter.attendanceLeaderboardAdapter
 import com.sro.schoolmanagementapp.Dialog.CustomDialog
-import com.sro.schoolmanagementapp.Model.Attendance
-import com.sro.schoolmanagementapp.Model.FileObj
 import com.sro.schoolmanagementapp.Network.RetrofitClass
 import com.sro.schoolmanagementapp.databinding.FragmentSyllabusBinding
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 private const val ARG_PARAM1 = "param1"
 private const val ARG_PARAM2 = "param2"
 
@@ -47,7 +36,7 @@ class Syllabus : Fragment() {
     private var param1: String? = null
     private var param2: String? = null
     lateinit var binding: FragmentSyllabusBinding
-    private lateinit var layoutManager: LayoutManager
+    private lateinit var layoutManager: RecyclerView.LayoutManager
     lateinit var fileType: String
     lateinit var viewModel: MainViewModel
     lateinit var repository: Repository
@@ -76,6 +65,10 @@ class Syllabus : Fragment() {
         viewModel =
             ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
 
+        Handler().postDelayed({
+            binding.shimmerViewContainer.visibility = View.GONE
+        }, 3000)
+
         viewModel.fileList.observe(viewLifecycleOwner, Observer { fileList ->
 
             if (fileList != null) {
@@ -84,7 +77,7 @@ class Syllabus : Fragment() {
                 var adapter = FileAdapter(requireContext(), fileList, fileType)
                 binding.syllabusrv.adapter = adapter
                 binding.shimmerViewContainer.stopShimmerAnimation()
-                binding.shimmerViewContainer.visibility = GONE
+                binding.shimmerViewContainer.visibility = View.GONE
             }
         })
 
@@ -102,34 +95,51 @@ class Syllabus : Fragment() {
                     ""
                 ) == "student"
             ) {
+
+                val school = context?.getSharedPreferences("student", Context.MODE_PRIVATE)
+                    ?.getString("studentschool", "").toString()
+                val className = context?.getSharedPreferences("student", Context.MODE_PRIVATE)
+                    ?.getString("studentclass", "").toString()
+                val section = context?.getSharedPreferences("student", Context.MODE_PRIVATE)
+                    ?.getString("studentsection", "").toString()
+
                 viewModel.getFiles(
-                    context?.getSharedPreferences("student", Context.MODE_PRIVATE)
-                        ?.getString("studentschool", "").toString(),
-                    context?.getSharedPreferences("student", Context.MODE_PRIVATE)
-                        ?.getString("studentclass", "").toString(),
-                    context?.getSharedPreferences("student", Context.MODE_PRIVATE)
-                        ?.getString("studentsection", "").toString(),
 
-                    fileType!!
+                    mapOf<String, String>(
 
+                        "a" to school,
+
+                        "b" to className,
+
+                        "c" to section,
+
+                        "d" to fileType!!
+                    )
                 )
 
             } else {
+                val school = context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                    ?.getString("teacherschool", "").toString()
+                val className = context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                    ?.getString("teacherclass", "").toString()
+                val section = context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                    ?.getString("teachersection", "").toString()
+
                 viewModel.getFiles(
-                    context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
-                        ?.getString("teacherschool", "").toString(),
-                    context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
-                        ?.getString("teacherclass", "").toString(),
-                    context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
-                        ?.getString("teachersection", "").toString(),
 
-                    fileType!!
+                    mapOf<String, String>(
 
+                        "a" to school,
+
+                        "b" to className,
+
+                        "c" to section,
+
+                        "d" to fileType!!
+                    )
                 )
-
             }
         }
-
     }
 
     private fun pickPdfFile() {
@@ -152,7 +162,11 @@ class Syllabus : Fragment() {
         if (requestCode == 100 && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
 
             CustomDialog.show(binding.root.context, object : CustomDialog.CustomDialogInterface {
-                override fun onPositiveButtonClick(dialog: Dialog?, text: String?) {
+                override fun onPositiveButtonClick(
+                    dialog: Dialog?,
+                    text: String?,
+                    subName: String?
+                ) {
                     uploadFile(
                         fileType,
                         text!!,
@@ -169,7 +183,7 @@ class Syllabus : Fragment() {
                 }
 
 
-            }, "Upload Syllabus")
+            }, "Syllabus is selected", false)
 
 
         }
@@ -177,7 +191,7 @@ class Syllabus : Fragment() {
 
     private fun uploadFile(fileType: String, fileName: String, context: Context, file: Uri) {
         val repository = Repository(RetrofitClass().getInstance())
-        var mainViewModel =
+        val mainViewModel =
             ViewModelProvider(this, MainViewModelFactory(repository))[MainViewModel::class.java]
 
         CoroutineScope(Dispatchers.IO).launch {
@@ -191,7 +205,17 @@ class Syllabus : Fragment() {
                     ?.getString("teacherclass", "").toString(),
                 context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
                     ?.getString("teachersection", "").toString(),
-                file
+                file,
+                mapOf<String, String>(
+
+                    "a" to context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                        ?.getString("teacherschool", "").toString(),
+                    "b" to context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                        ?.getString("teacherclass", "").toString(),
+                    "c" to context?.getSharedPreferences("teacher", Context.MODE_PRIVATE)
+                        ?.getString("teachersection", "").toString(),
+                    "d" to fileType!!
+                )
             )
 
         }
